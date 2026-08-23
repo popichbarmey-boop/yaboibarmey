@@ -85,7 +85,7 @@
     }
 
     .subtitle {
-      font-size: 13px;
+      font-size: 12px;
       opacity: 0.8;
       margin-bottom: 20px;
       color: #ff93fa;
@@ -116,9 +116,9 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      font-size: 12px;
+      font-size: 14px;
       color: #b6fffb;
-      padding-right: 30px; /* Balances out the icon spacing on the left */
+      padding-right: 100px;
     }
 
     .bio-text strong {
@@ -200,7 +200,6 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      /* Cuts a center hole for authentic record look */
       clip-path: circle(50% at 50% 50%);
       animation: spin 6s linear infinite;
       animation-play-state: paused;
@@ -225,7 +224,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Class applied via JS when playing */
     .song-cover.playing {
       animation-play-state: running;
     }
@@ -333,8 +331,8 @@
       <div class="bio-box">
         <img src="The_Fifth_Times_a_Charm.gif" alt="Bio Avatar">
         <div class="bio-text">
-          <strong>NEED STH PLEASE DM ME BELOW</strong>
-          <span>barmey27</span>
+          <strong>𝗡𝗘𝗘𝗗 𝗦𝗧𝗛 𝗣𝗟𝗘𝗔𝗦𝗘 𝗗𝗠 𝗠𝗘 𝗕𝗘𝗟𝗢𝗪</strong>
+          <span>𝐘𝐚𝐛𝐨𝐢𝐁𝟒𝐫𝐦𝐞𝐲</span>
         </div>
       </div>
 
@@ -375,7 +373,7 @@
           <div class="progress-fill" id="progress-fill"></div>
         </div>
 
-        <!-- 2. Volume slider placed directly BELOW song progress line -->
+        <!-- 2. Volume slider -->
         <div class="volume-container">
           <i class="fa-solid fa-volume-high volume-icon"></i>
           <input type="range" class="volume-slider" id="volume-slider" min="0" max="4" step="0.05" value="1.5">
@@ -387,7 +385,7 @@
     </div>
   </div>
 
-  <audio id="audio-player" src="https://files.catbox.moe/08zu9x.mp3" crossorigin="anonymous" loop></audio>
+  <audio id="audio-player" src="https://files.catbox.moe/08zu9x.mp3" crossorigin="anonymous" autoplay loop></audio>
 
   <script>
     const audio = document.getElementById('audio-player');
@@ -407,7 +405,6 @@
         
         const source = audioCtx.createMediaElementSource(audio);
         gainNode = audioCtx.createGain();
-
         gainNode.gain.value = parseFloat(volumeSlider.value);
 
         source.connect(gainNode);
@@ -419,32 +416,33 @@
       }
     }
 
-    // 1. Force instant auto-play on page load
-    window.addEventListener('DOMContentLoaded', () => {
-      audio.muted = true;
+    function playAudio() {
+      initAudioBoost();
+      audio.muted = false;
       audio.play().then(() => {
         playBtn.textContent = '❚❚';
         songCover.classList.add('playing');
       }).catch(err => {
         console.log('Autoplay blocked:', err);
       });
+    }
+
+    // Try playing unmuted on load
+    window.addEventListener('DOMContentLoaded', () => {
+      playAudio();
     });
 
-    // 2. Automatically unmute on the first interaction or screen movement
-    const unmuteAudio = () => {
-      initAudioBoost();
-      audio.muted = false;
-      playBtn.textContent = '❚❚';
-      songCover.classList.add('playing');
-      
-      ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(evt => {
-        window.removeEventListener(evt, unmuteAudio);
-      });
+    // Unmute and start playback on any user click across the page
+    const enableAudioOnUserInteraction = () => {
+      playAudio();
+      document.removeEventListener('click', enableAudioOnUserInteraction);
+      document.removeEventListener('keydown', enableAudioOnUserInteraction);
+      document.removeEventListener('touchstart', enableAudioOnUserInteraction);
     };
 
-    ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(evt => {
-      window.addEventListener(evt, unmuteAudio, { once: true });
-    });
+    document.addEventListener('click', enableAudioOnUserInteraction);
+    document.addEventListener('keydown', enableAudioOnUserInteraction);
+    document.addEventListener('touchstart', enableAudioOnUserInteraction);
 
     // Controls Logic
     volumeSlider.addEventListener('input', (e) => {
@@ -489,7 +487,7 @@
     });
 
     // View Counter Logic
-    let count = localStorage.getItem('page_views') || 35;
+    let count = localStorage.getItem('page_views') || 0;
     count = parseInt(count) + 1;
     localStorage.setItem('page_views', count);
     document.getElementById('views').textContent = count;
