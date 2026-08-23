@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BARMEY</title>
+  <!-- FontAwesome Icons for Telegram & TikTok -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      gap: 15px;
+      color: #ff3b69;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background image with overlay */
+    .bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('SnakeGirl777.gif') center/cover no-repeat;
+      filter: grayscale(80%) brightness(0.5);
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      width: 380px;
+      padding: 30px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    /* Clean Avatar without GIF frame */
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff3b69;
+      margin-bottom: 12px;
+      box-shadow: 0 0 15px rgba(255, 59, 105, 0.4);
+    }
+
+    .username {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 0, 221, 0.5);
+      margin-bottom: 20px; 
+    }
+
+    .subtitle {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 20px;
+      color: #ff93fa;
+    }
+
+    .bio-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 12px 14px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(133, 18, 18, 0.08);
+    }
+
+    .bio-box img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .bio-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 12px;
+      color: #b6fffb;
+      padding-right: 30px; /* Balances out the icon spacing on the left */
+    }
+
+    .bio-text strong {
+      color: #ff00c8;
+      display: block;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .bio-text span {
+      display: block;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Social Links (Telegram & TikTok) */
+    .social-links {
+      display: flex;
+      gap: 20px;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .social-links a {
+      color: #ff3b69;
+      text-decoration: none;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.25);
+      color: #ffffff;
+    }
+
+    .view-count {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.8;
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #ff3b69;
+    }
+
+    /* Music Player Card */
+    .music-card {
+      width: 380px;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Vinyl Disc Container */
+    .disc-wrapper {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 59, 105, 0.3);
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Vinyl Grooves & Image */
+    .song-cover {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      /* Cuts a center hole for authentic record look */
+      clip-path: circle(50% at 50% 50%);
+      animation: spin 6s linear infinite;
+      animation-play-state: paused;
+    }
+
+    /* Inner Disc Hole Rings */
+    .disc-wrapper::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #111;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    /* Continuous Disc Rotation */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Class applied via JS when playing */
+    .song-cover.playing {
+      animation-play-state: running;
+    }
+
+    .player-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .song-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Song progress bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #ff3b69;
+      border-radius: 2px;
+    }
+
+    /* Compact Volume Control underneath song progress line */
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .volume-icon {
+      color: #ffffff;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 90px;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.25);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .play-btn {
+      background: none;
+      border: none;
+      color: #ff3b69;
+      font-size: 18px;
+      cursor: pointer;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-image"></div>
+
+  <div class="container">
+    <!-- Main Profile Card -->
+    <div class="profile-card">
+      <img src="photo_2026-08-23_01-45-03.jpg" class="avatar" alt="Avatar">
+      <div class="username">POPICHBARMEY</div>
+
+      <div class="bio-box">
+        <img src="The_Fifth_Times_a_Charm.gif" alt="Bio Avatar">
+        <div class="bio-text">
+          <strong>NEED STH PLEASE DM ME BELOW</strong>
+          <span>barmey27</span>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="https://t.me/barmey24" target="_blank" title="Telegram">
+          <i class="fa-brands fa-telegram"></i>
+        </a>
+        <a href="https://www.tiktok.com/@smosboimzy" target="_blank" title="TikTok">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://www.facebook.com/share/1Btg2pnf8j/?mibextid=wwXIfr" target="_blank" title="Facebook">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/hnogtong?igsh=MWo4aHNjNDdjcGE2NA%3D%3D&igsi=MWo4aHNjNDdjcGE2NA%3D%3D&utm_source=qr" target="_blank" title="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://discord.com/users/1509863639606100129" target="_blank" title="Discord">
+          <i class="fa-brands fa-discord"></i>
+        </a>
+      </div>
+
+      <div class="view-count">
+        <i class="fa-solid fa-eye"></i> <span id="views">1</span>
+      </div>
+    </div>
+
+    <!-- Music Player Card -->
+    <div class="music-card">
+      <div class="disc-wrapper">
+        <img src="51rdbQjyDFL.webp" class="song-cover" id="song-cover" alt="Song Cover">
+      </div>
+
+      <div class="player-details">
+        <div class="song-title">STEAV STONG DA - ស្ទាវស្តង់ដារ</div>
+        
+        <!-- 1. Song Progress Line -->
+        <div class="progress-bar-container" id="progress-container">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- 2. Volume slider placed directly BELOW song progress line -->
+        <div class="volume-container">
+          <i class="fa-solid fa-volume-high volume-icon"></i>
+          <input type="range" class="volume-slider" id="volume-slider" min="0" max="4" step="0.05" value="1.5">
+        </div>
+      </div>
+      <div class="controls">
+        <button class="play-btn" id="play-btn">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio-player" src="https://files.catbox.moe/08zu9x.mp3" crossorigin="anonymous" loop></audio>
+
+  <script>
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    const progressFill = document.getElementById('progress-fill');
+    const progressContainer = document.getElementById('progress-container');
+    const songCover = document.getElementById('song-cover');
+
+    let audioCtx;
+    let gainNode;
+
+    function initAudioBoost() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+        
+        const source = audioCtx.createMediaElementSource(audio);
+        gainNode = audioCtx.createGain();
+
+        gainNode.gain.value = parseFloat(volumeSlider.value);
+
+        source.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // 1. Force instant auto-play on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      audio.muted = true;
+      audio.play().then(() => {
+        playBtn.textContent = '❚❚';
+        songCover.classList.add('playing');
+      }).catch(err => {
+        console.log('Autoplay blocked:', err);
+      });
+    });
+
+    // 2. Automatically unmute on the first interaction or screen movement
+    const unmuteAudio = () => {
+      initAudioBoost();
+      audio.muted = false;
+      playBtn.textContent = '❚❚';
+      songCover.classList.add('playing');
+      
+      ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(evt => {
+        window.removeEventListener(evt, unmuteAudio);
+      });
+    };
+
+    ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(evt => {
+      window.addEventListener(evt, unmuteAudio, { once: true });
+    });
+
+    // Controls Logic
+    volumeSlider.addEventListener('input', (e) => {
+      initAudioBoost();
+      audio.muted = false;
+      const val = parseFloat(e.target.value);
+      if (gainNode) {
+        gainNode.gain.value = val;
+      }
+    });
+
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      initAudioBoost();
+      audio.muted = false;
+
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '❚❚';
+        songCover.classList.add('playing');
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        songCover.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+      }
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const width = progressContainer.clientWidth;
+      const clickX = e.offsetX;
+      if (audio.duration) {
+        audio.currentTime = (clickX / width) * audio.duration;
+      }
+    });
+
+    // View Counter Logic
+    let count = localStorage.getItem('page_views') || 35;
+    count = parseInt(count) + 1;
+    localStorage.setItem('page_views', count);
+    document.getElementById('views').textContent = count;
+  </script>
+</body>
+</html>
