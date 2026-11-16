@@ -24,17 +24,21 @@
       --card-border: rgba(255, 255, 255, 0.14);
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: safe center;
       background: #09090f;
       color: #fff;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 24px 16px;
+      padding: 28px 16px 40px;
       position: relative;
     }
 
@@ -106,6 +110,7 @@
       perspective: 1200px;
       width: 100%;
       max-width: 400px;
+      margin: auto 0;
       animation: pageEntry 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
@@ -375,9 +380,18 @@
     .social-btn.instagram { --hover-color: #E1306C; }
     .social-btn.discord { --hover-color: #5865F2; }
 
+    /* Profile Bottom Row */
+    .profile-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
     /* View Count Badge */
     .view-count {
-      align-self: flex-start;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -385,9 +399,9 @@
       font-weight: 600;
       color: rgba(255, 255, 255, 0.65);
       background: rgba(0, 0, 0, 0.35);
-      padding: 5px 11px;
+      padding: 6px 12px;
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .view-count i {
@@ -398,6 +412,201 @@
     @keyframes eyePulse {
       0%, 100% { opacity: 0.6; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 5px var(--neon-pink)); }
+    }
+
+    /* Scroll Down Button */
+    .scroll-down-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 59, 105, 0.16);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 59, 105, 0.45);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(255, 59, 105, 0.2);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .scroll-down-btn:hover {
+      background: rgba(255, 59, 105, 0.32);
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 18px rgba(255, 59, 105, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .scroll-down-btn i {
+      color: var(--neon-pink);
+      font-size: 11px;
+      animation: chevronBounce 1.8s infinite;
+    }
+
+    @keyframes chevronBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    /* Pay Cafe Card */
+    .pay-card {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid rgba(0, 242, 254, 0.28);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65),
+                  0 0 25px rgba(0, 242, 254, 0.12),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      transition: transform 0.18s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .pay-card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.8),
+                  0 0 35px rgba(0, 242, 254, 0.28),
+                  inset 0 1px 2px rgba(255, 255, 255, 0.25);
+    }
+
+    .pay-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .pay-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(255, 59, 105, 0.25));
+      border: 1.5px solid rgba(0, 242, 254, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #00f2fe;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pay-card:hover .pay-icon-wrapper {
+      transform: scale(1.08) rotate(-5deg);
+      box-shadow: 0 0 22px rgba(0, 242, 254, 0.5);
+      color: #fff;
+    }
+
+    .pay-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pay-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #00f2fe;
+    }
+
+    .pay-badge .pay-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00f2fe;
+      box-shadow: 0 0 8px #00f2fe;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .pay-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      background: linear-gradient(135deg, #ffffff 20%, #00f2fe 70%, #ff3b69 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.35));
+    }
+
+    .pay-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.5;
+    }
+
+    .pay-action-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff3b69 0%, #ff00c8 50%, #00f2fe 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(255, 59, 105, 0.4), 0 0 15px rgba(0, 242, 254, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pay-action-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: rotate(30deg);
+      transition: transform 0.65s ease;
+    }
+
+    .pay-action-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(255, 59, 105, 0.6), 0 0 25px rgba(0, 242, 254, 0.45);
+      filter: brightness(1.1);
+    }
+
+    .pay-action-btn:hover::before {
+      transform: rotate(30deg) translate(50%, 50%);
+    }
+
+    .pay-action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .pay-action-btn i {
+      font-size: 15px;
+      transition: transform 0.25s ease;
+    }
+
+    .pay-action-btn:hover i.fa-mug-hot {
+      transform: rotate(-10deg) scale(1.2);
+    }
+
+    .pay-action-btn:hover i.fa-arrow-up-right-from-square {
+      transform: translate(2px, -2px);
     }
 
     /* Music Player Card */
@@ -748,9 +957,15 @@
         </a>
       </div>
 
-      <!-- View Counter -->
-      <div class="view-count">
-        <i class="fa-solid fa-eye"></i> <span id="views">1</span> views
+      <!-- Profile Card Bottom Row: View Counter & Scroll Down Button -->
+      <div class="profile-bottom-row">
+        <div class="view-count">
+          <i class="fa-solid fa-eye"></i> <span id="views">1</span> views
+        </div>
+        <a href="#pay-cafe-card" class="scroll-down-btn" id="scroll-down-btn" title="Scroll down to Pay Cafe">
+          <span>Scroll Down</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </a>
       </div>
     </div>
 
@@ -799,6 +1014,33 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Pay Cafe Card with 3D Tilt -->
+    <div class="tilt-card pay-card" id="pay-cafe-card" data-tilt>
+      <div class="card-glare"></div>
+      
+      <div class="pay-header">
+        <div class="pay-icon-wrapper">
+          <i class="fa-solid fa-mug-hot"></i>
+        </div>
+        <div class="pay-title-group">
+          <div class="pay-badge">
+            <span class="pay-dot"></span> ABA PAYWAY
+          </div>
+          <div class="pay-title">For Pay Cafe</div>
+        </div>
+      </div>
+
+      <p class="pay-desc">
+        Enjoying the vibe? Support YaboiBarmey or buy me a coffee via ABA Pay!
+      </p>
+
+      <a href="https://link.payway.com.kh/ABAPAYKu571780w" target="_blank" rel="noopener noreferrer" class="pay-action-btn" title="Pay with ABA PayWay">
+        <i class="fa-solid fa-mug-hot"></i>
+        <span>For Pay Cafe</span>
+        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; margin-left: 2px;"></i>
+      </a>
     </div>
   </div>
 
@@ -1154,6 +1396,26 @@
     count = parseInt(count) + 1;
     localStorage.setItem('page_views', count);
     document.getElementById('views').textContent = count.toLocaleString();
+
+    /* ========================================================
+       6. SMOOTH SCROLL & HIGHLIGHT FOR PAY CAFE
+       ======================================================== */
+    const scrollDownBtn = document.getElementById('scroll-down-btn');
+    if (scrollDownBtn) {
+      scrollDownBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const payCard = document.getElementById('pay-cafe-card');
+        if (payCard) {
+          payCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          payCard.style.borderColor = 'var(--neon-pink)';
+          payCard.style.boxShadow = '0 0 35px rgba(255, 59, 105, 0.65), 0 0 25px rgba(0, 242, 254, 0.45)';
+          setTimeout(() => {
+            payCard.style.borderColor = '';
+            payCard.style.boxShadow = '';
+          }, 1500);
+        }
+      });
+    }
   </script>
 </body>
 </html>
